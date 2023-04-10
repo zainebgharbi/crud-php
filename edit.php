@@ -1,47 +1,41 @@
 <!DOCTYPE html>
 <html>
-<head>
 <style>
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
+input, select {
   width: 100%;
-}
-
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-.button {
-  background-color: #4CAF50;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
+  padding: 12px 20px;
+  margin: 8px 0;
   display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
 }
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
 </style>
-</head>
 <body>
 
-<h2>articles</h2>
-<a href="create.html" class="button">Link Button</a>
-<table>
-  <tr>
-    <th>Id</th>
-    <th>Name</th>
-    <th>Price</th>
-    <th>Quantity</th>
-  </tr>
+<h3>Edit Article</h3>
+
 <?php
 
 // Connection Paraméters
@@ -57,20 +51,44 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM article";
+$sql = "SELECT * FROM article where id=" . $_REQUEST["id"];
 $result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    // output data of each row
-    while ($row = $result->fetch_assoc()) {
-        echo "<tr><td> " . $row["id"] . " </td><td> " . $row["name"] . "</td><td> "  . $row["price"] . "  </td><td> "  . $row["quantite"] . "</td></tr>";
-    }
-} else {
-    echo "0 results";
-}
-$conn->close();
+$row = $result->fetch_assoc();
+
 
 ?>
-</table>
+
+
+
+  <form action="update.php" method="post">
+
+  <div>
+    <label for="fid">ID</label>
+    <input type="number" id="fid" name="id" value="<?php echo $row['id']?>">
+</div>
+
+
+
+    <div>
+    <label for="fname">Name</label>
+    <input type="text" id="fname" name="name" value="<?php echo $row['name']?>">
+</div>
+<div>
+    <label for="fprice">Price</label>
+    <input type="number" id="fprice" name="price" value="<?php echo $row['price']?>">
+</div>
+<div>
+    <label for="fquantity">Quantity</label>
+    <input type="number" id="fquantity" name="quantite" value="<?php echo $row['quantite']?>">
+</div>
+
+    <input type="submit" value="Submit">
+  </form>
+  <?php
+  $conn->close();
+
+  ?>
+
 </body>
 </html>
