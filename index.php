@@ -18,7 +18,7 @@ tr:nth-child(even) {
   background-color: #dddddd;
 }
 .button {
-  background-color: #4CAF50;
+  
   border: none;
   color: white;
   padding: 15px 32px;
@@ -33,8 +33,8 @@ tr:nth-child(even) {
 </head>
 <body>
 
-<h2>articles</h2>
-<a href="create.html" class="button">Link Button</a>
+<h2>Articles management</h2>
+<a href="create.html" class="button" style="background-color: blue">Create</a>
 <table>
   <tr>
     <th>Id</th>
@@ -63,7 +63,11 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // output data of each row
     while ($row = $result->fetch_assoc()) {
-        echo "<tr><td> " . $row["id"] . " </td><td> " . $row["name"] . "</td><td> "  . $row["price"] . "  </td><td> "  . $row["quantite"] . "</td></tr>";
+        echo "<tr><td> " . $row["id"] . " </td><td> " . $row["name"] .
+         "</td><td> "  . $row["price"] . "  </td><td> "  . $row["quantite"] 
+         . "</td><td><a href='edit.php?id=" . $row["id"] . "' class='button' style='background-color: #4CAF50'>Edit</a>"
+         . "<a href='delete.php?id=" . $row["id"] . "' class='button' style='background-color: red'>Delete</a>"
+         ."</td></tr>";
     }
 } else {
     echo "0 results";
